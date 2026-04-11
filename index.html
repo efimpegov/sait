@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Официальный сайт YouTube-блогера: свежие видео, информация о канале и поддержка автора."
+    />
+    <title>YouTube Blogger | Официальный сайт</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="hero container">
+      <div class="hero__content">
+        <p class="eyebrow">YouTube Creator</p>
+        <h1 id="bloggerName">Имя блогера</h1>
+        <p id="tagline" class="hero__tagline">Короткий слоган и описание контента.</p>
+        <div class="hero__actions">
+          <a id="channelLink" class="btn btn--primary" href="#" target="_blank" rel="noopener noreferrer"
+            >Перейти на канал</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section container" id="about">
+        <h2>О себе</h2>
+        <p id="aboutText">
+          Здесь будет краткая биография блогера: чем занимается, какие темы освещает и почему его
+          контент стоит смотреть.
+        </p>
+      </section>
+
+      <section class="section container" id="stats">
+        <h2>Статистика канала</h2>
+        <div class="stats-grid">
+          <article class="card stat-card">
+            <p class="stat-card__label">Подписчики</p>
+            <p class="stat-card__value" id="subscribers">—</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-card__label">Просмотры</p>
+            <p class="stat-card__value" id="views">—</p>
+          </article>
+          <article class="card stat-card">
+            <p class="stat-card__label">Видео</p>
+            <p class="stat-card__value" id="videosCount">—</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section container" id="videos">
+        <div class="section-head">
+          <h2>Последние видео</h2>
+          <p class="muted" id="videosMeta">Загрузка видео...</p>
+        </div>
+        <div id="videoGrid" class="videos-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="section container" id="support">
+        <h2>Поддержать автора</h2>
+        <div id="supportLinks" class="links-wrap"></div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      <p id="statusMessage" class="muted"></p>
+      <p>© <span id="year"></span> <span id="footerName">YouTube Blogger</span></p>
+    </footer>
+
+    <script src="./config.js"></script>
+    <script src="./main.js" defer></script>
+  </body>
+</html>
