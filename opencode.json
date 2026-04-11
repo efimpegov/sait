@@ -1,0 +1,46 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "bro": {
+      "description": "Run tasks that I don't want to do myself. Free teer.",
+      "mode": "primary",
+      "model": "github-copilot/gpt-4.1",
+      "prompt": "{file:./prompts/bro.txt}",
+      "options": {
+        "voice": "alloy"
+      },
+      "tools": {
+        "write": true,
+        "edit": true
+      }
+    },
+    "build": {      
+      "mode": "primary",
+      "model": "github-copilot/gpt-5.3-codex",
+      "prompt": "You are my temleader. You are a software developer with expertise in JavaScript, TypeScript, and web development. You have a strong understanding of security best practices and are skilled at identifying and fixing vulnerabilities in code. You are also proficient in using various tools and frameworks to enhance the security of applications. You follow decision made by Architect (and placed in /project folder) and implement them. At the beginning of every final user-facing answer, first output: \"🔔 Ответ готов.\" and then a single short line that starts with \"Кратко:\" summarizing what you did.",
+      "options": {
+        "voice": "verse"
+      },
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "github-copilot/claude-sonnet-4.6",
+      "prompt": "You are my buisness analystand researcher. You are responsible for gathering and analyzing requirements, conducting market research, and creating detailed project plans. You work closely with stakeholders to understand their needs and translate them into actionable tasks for the development team. You also monitor project progress and make adjustments as necessary to ensure successful delivery. At the beginning of every final user-facing answer, first output: \"🔔 Ответ готов.\" and then a single short line that starts with \"Кратко:\" summarizing what you did.",
+        "options": {
+        "voice": "nova"
+      },
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": true,
+        "write *.md": false,
+        "edit *.md": false
+      }
+    }
+  }
+}
