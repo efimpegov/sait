@@ -12,7 +12,7 @@ window.APP_CONFIG = {
 
   // Донаты / поддержка
   supportLinks: [
-    { label: "Donatik", url: "https://efimpeg.donatik.ua" },
+    { label: "Поддержать меня", url: "https://dalink.to/efimus19" },
     // { label: "DonationAlerts", url: "https://www.donationalerts.com/r/yourname" },
     // { label: "Patreon", url: "https://www.patreon.com/yourname" },
   ],
