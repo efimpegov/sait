@@ -22,5 +22,6 @@ window.APP_CONFIG = {
     enabled: true,
     provider: "ga4",
     measurementId: "G-2EGCNTV63R", // пример: G-XXXXXXXXXX
+    providerUrl: "https://analytics.google.com/analytics/web/", // опционально: кастомная ссылка
   },
 };

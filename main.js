@@ -59,8 +59,29 @@
     const enabled = analyticsCfg.enabled === true;
     const provider = safeText(analyticsCfg.provider, "ga4").toUpperCase();
     const measurementId = safeText(analyticsCfg.measurementId, "");
+    const providerUrl = getAnalyticsProviderUrl(provider, analyticsCfg);
 
-    if (els.analyticsProvider) els.analyticsProvider.textContent = provider;
+    if (els.analyticsProvider) {
+      els.analyticsProvider.textContent = "";
+      if (providerUrl) {
+        const link = document.createElement("a");
+        link.className = "analytics-provider-link";
+        link.textContent = provider;
+        link.href = providerUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.addEventListener("click", () => {
+          trackAnalyticsEvent("analytics_provider_click", {
+            provider,
+            destination_url: providerUrl,
+            source_section: "site_analytics",
+          });
+        });
+        els.analyticsProvider.appendChild(link);
+      } else {
+        els.analyticsProvider.textContent = provider;
+      }
+    }
     if (els.analyticsId) els.analyticsId.textContent = measurementId || "—";
 
     if (!enabled) {
@@ -101,6 +122,23 @@
     });
 
     if (els.analyticsState) els.analyticsState.textContent = "Активно";
+  }
+
+  function getAnalyticsProviderUrl(provider, analyticsCfg) {
+    const configuredUrl = safeText(analyticsCfg?.providerUrl, "");
+    if (configuredUrl && isSafeExternalUrl(configuredUrl)) return configuredUrl;
+
+    if (provider === "GA4") return "https://analytics.google.com/analytics/web/";
+    return "";
+  }
+
+  function isSafeExternalUrl(urlString) {
+    try {
+      const url = new URL(urlString);
+      return url.protocol === "https:" || url.protocol === "http:";
+    } catch {
+      return false;
+    }
   }
 
   function initStatic() {

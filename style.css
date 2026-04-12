@@ -197,6 +197,18 @@ h2 {
   border-color: var(--accent);
 }
 
+.analytics-provider-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 65%, #ffffff 35%);
+  text-underline-offset: 0.15em;
+}
+
+.analytics-provider-link:hover {
+  color: #ffffff;
+  text-decoration-color: var(--accent);
+}
+
 .footer {
   border-top: 1px solid var(--card-border);
   margin-top: 1rem;
