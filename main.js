@@ -82,13 +82,41 @@
       const isExternal = /^https?:\/\//i.test(url);
       if (!isExternal) continue;
 
+      const card = document.createElement("article");
+      card.className = "card support-card";
+
+      const qrSrc = safeText(item.qr, "");
+      if (qrSrc && isSafeImageSrc(qrSrc)) {
+        const img = document.createElement("img");
+        img.className = "support-card__qr";
+        img.src = qrSrc;
+        img.alt = `QR-код для: ${label}`;
+        img.loading = "lazy";
+        card.appendChild(img);
+      }
+
+      const body = document.createElement("div");
+      body.className = "support-card__body";
+
       const a = document.createElement("a");
       a.className = "chip-link";
       a.textContent = label;
       a.href = url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      els.supportLinks.appendChild(a);
+
+      body.appendChild(a);
+      card.appendChild(body);
+      els.supportLinks.appendChild(card);
+    }
+  }
+
+  function isSafeImageSrc(src) {
+    try {
+      const url = new URL(src, window.location.origin);
+      return url.protocol === "https:" || url.protocol === "http:";
+    } catch {
+      return false;
     }
   }
 

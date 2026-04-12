@@ -159,12 +159,33 @@ h2 {
 }
 
 .links-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.support-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+  flex-direction: column;
+}
+
+.support-card__qr {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fff;
+  padding: 0.8rem;
+  margin: 25px auto 0;
+}
+
+.support-card__body {
+  padding: 0.8rem;
+  margin: auto;
 }
 
 .chip-link {
+  display: inline-flex;
   text-decoration: none;
   border: 1px solid var(--card-border);
   border-radius: 999px;
