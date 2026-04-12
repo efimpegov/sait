@@ -12,7 +12,7 @@ window.APP_CONFIG = {
 
   // Донаты / поддержка
   supportLinks: [
-    // { label: "Boosty", url: "https://boosty.to/yourname" },
+    { label: "Donatik", url: "https://efimpeg.donatik.ua" },
     // { label: "DonationAlerts", url: "https://www.donationalerts.com/r/yourname" },
     // { label: "Patreon", url: "https://www.patreon.com/yourname" },
   ],
