@@ -16,4 +16,11 @@ window.APP_CONFIG = {
     // { label: "DonationAlerts", url: "https://www.donationalerts.com/r/yourname" },
     // { label: "Patreon", url: "https://www.patreon.com/yourname" },
   ],
+
+  // Аналитика сайта (Google Analytics 4)
+  analytics: {
+    enabled: true,
+    provider: "ga4",
+    measurementId: "G-2EGCNTV63R", // пример: G-XXXXXXXXXX
+  },
 };

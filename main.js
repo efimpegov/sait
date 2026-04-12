@@ -15,6 +15,9 @@
     videoGrid: document.getElementById("videoGrid"),
     videosMeta: document.getElementById("videosMeta"),
     supportLinks: document.getElementById("supportLinks"),
+    analyticsProvider: document.getElementById("analyticsProvider"),
+    analyticsId: document.getElementById("analyticsId"),
+    analyticsState: document.getElementById("analyticsState"),
     statusMessage: document.getElementById("statusMessage"),
     year: document.getElementById("year"),
   };
@@ -38,6 +41,58 @@
     if (els.statusMessage) {
       els.statusMessage.textContent = msg;
     }
+  }
+
+  function isValidGa4MeasurementId(value) {
+    if (typeof value !== "string") return false;
+    return /^G-[A-Z0-9]{6,}$/i.test(value.trim());
+  }
+
+  function initAnalytics() {
+    const analyticsCfg = cfg?.analytics && typeof cfg.analytics === "object" ? cfg.analytics : {};
+    const enabled = analyticsCfg.enabled === true;
+    const provider = safeText(analyticsCfg.provider, "ga4").toUpperCase();
+    const measurementId = safeText(analyticsCfg.measurementId, "");
+
+    if (els.analyticsProvider) els.analyticsProvider.textContent = provider;
+    if (els.analyticsId) els.analyticsId.textContent = measurementId || "—";
+
+    if (!enabled) {
+      if (els.analyticsState) els.analyticsState.textContent = "Выключено";
+      return;
+    }
+
+    if (provider !== "GA4") {
+      if (els.analyticsState) els.analyticsState.textContent = "Неизвестный провайдер";
+      return;
+    }
+
+    if (!isValidGa4MeasurementId(measurementId) || measurementId === "PASTE_GA4_MEASUREMENT_ID_HERE") {
+      if (els.analyticsState) els.analyticsState.textContent = "Нужен Measurement ID";
+      return;
+    }
+
+    const existing = document.querySelector('script[data-analytics="ga4"]');
+    if (!existing) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+      script.setAttribute("data-analytics", "ga4");
+      document.head.appendChild(script);
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+    gtag("config", measurementId, {
+      anonymize_ip: true,
+      transport_type: "beacon",
+    });
+
+    if (els.analyticsState) els.analyticsState.textContent = "Активно";
   }
 
   function initStatic() {
@@ -235,5 +290,6 @@
   }
 
   initStatic();
+  initAnalytics();
   loadChannelData();
 })();
