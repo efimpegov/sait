@@ -43,6 +43,12 @@
     }
   }
 
+  function trackAnalyticsEvent(eventName, params = {}) {
+    const normalizedName = safeText(eventName, "");
+    if (!normalizedName || typeof window.gtag !== "function") return;
+    window.gtag("event", normalizedName, params);
+  }
+
   function isValidGa4MeasurementId(value) {
     if (typeof value !== "string") return false;
     return /^G-[A-Z0-9]{6,}$/i.test(value.trim());
@@ -82,12 +88,14 @@
     }
 
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
+    window.gtag =
+      window.gtag ||
+      function () {
+        window.dataLayer.push(arguments);
+      };
 
-    gtag("js", new Date());
-    gtag("config", measurementId, {
+    window.gtag("js", new Date());
+    window.gtag("config", measurementId, {
       anonymize_ip: true,
       transport_type: "beacon",
     });
@@ -110,6 +118,13 @@
       els.channelLink.href = link;
       if (link === "#") {
         els.channelLink.setAttribute("aria-disabled", "true");
+      } else if (/^https?:\/\//i.test(link)) {
+        els.channelLink.addEventListener("click", () => {
+          trackAnalyticsEvent("channel_click", {
+            destination_url: link,
+            source_section: "hero",
+          });
+        });
       }
     }
 
@@ -159,6 +174,13 @@
       a.href = url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
+      a.addEventListener("click", () => {
+        trackAnalyticsEvent("support_click", {
+          button_label: label,
+          destination_url: url,
+          source_section: "support",
+        });
+      });
 
       body.appendChild(a);
       card.appendChild(body);
@@ -186,10 +208,21 @@
     card.className = "card video-card";
 
     const link = document.createElement("a");
-    link.href = videoId ? `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}` : "#";
+    const videoUrl = videoId
+      ? `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`
+      : "#";
+    link.href = videoUrl;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.ariaLabel = `Открыть видео: ${title}`;
+    link.addEventListener("click", () => {
+      trackAnalyticsEvent("video_click", {
+        video_id: videoId || "unknown",
+        video_title: title,
+        destination_url: videoUrl,
+        source_section: "videos",
+      });
+    });
 
     const img = document.createElement("img");
     img.loading = "lazy";
